@@ -79,10 +79,15 @@ p {
     font-style: normal;
 }
 
-#omeka-site, #album-site, #sql-proj {
+#omeka-site, #album-site, #sql-proj, #omeka-cats, #dpu-proj {
     font-size: x-large;
     font-style: oblique;
     padding-left: 30px;
+}
+
+#etl-repo, #cats-collec, #travel-collec {
+    padding-left: 60px;
+    font-size: large;
 }
 
 #omeka-site::before {
@@ -97,5 +102,15 @@ p {
 
 #sql-proj::before {
     content: '\1F963    ';
+    font-style: normal;
+}
+
+#omeka-cats::before {
+    content: '\1F5C3    ';
+    font-style: normal;
+}
+
+#dpu-proj::before {
+    content: '\1F4BE    ';
     font-style: normal;
 }
