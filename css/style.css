@@ -79,7 +79,7 @@ p {
     font-style: normal;
 }
 
-#omeka-site, #album-site, #sql-proj, #omeka-cats, #dpu-proj {
+#omeka-site, #album-site, #sql-proj, #omeka-cats, #dpu-proj, #loc-assessment {
     font-size: x-large;
     font-style: oblique;
     padding-left: 30px;
@@ -112,5 +112,10 @@ p {
 
 #dpu-proj::before {
     content: '\1F4BE    ';
+    font-style: normal;
+}
+
+#loc-assessment::before {
+    content: '\1F5A5    ';
     font-style: normal;
 }
