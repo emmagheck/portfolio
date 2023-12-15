@@ -40,8 +40,9 @@ ul {
 }
 
 .projects-list {
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-row-gap: 25px;
     background-color: #adc5d1;
 }
 
@@ -118,4 +119,23 @@ p {
 #loc-assessment::before {
     content: '\1F5A5    ';
     font-style: normal;
+}
+
+@media screen and (min-width: 800px) {
+    .projects-list {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        align-items: center;
+        margin: 20px;
+        padding: 20px;
+        grid-row-gap: 40px
+    }
+
+    .omeka-site {
+        /* background-color: antiquewhite; */
+    }
+
+    .album-site {
+        /* background-color: aquamarine; */
+    }
 }
