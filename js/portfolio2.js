@@ -58,8 +58,12 @@ postIts.forEach(postIt => {
 
     function movePostIt(event) {
       // Calculate the new position within corkboard boundaries
-      let newX = Math.min(Math.max(event.clientX - offsetX, 0), corkboard.offsetWidth - postIt.offsetWidth);
-      let newY = Math.min(Math.max(event.clientY - offsetY, 0), corkboard.offsetHeight - postIt.offsetHeight);
+      let newX = event.clientX - offsetX;
+      let newY = event.clientY - offsetY;
+
+      // Limit the dragging within the corkboard boundaries
+      newX = Math.min(Math.max(newX, 0), corkboard.offsetWidth - postIt.offsetWidth);
+      newY = Math.min(Math.max(newY, 0), corkboard.offsetHeight - postIt.offsetHeight);
 
       postIt.style.left = `${newX}px`;
       postIt.style.top = `${newY}px`;
