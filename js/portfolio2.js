@@ -31,3 +31,62 @@ document.addEventListener('DOMContentLoaded', function() {
     const dropdownMenu = document.querySelector('.dropdown-menu');
     dropdownMenu.style.display = (dropdownMenu.style.display === 'block') ? 'none' : 'block';
   }
+
+
+// Make post-it notes draggable and set random positions
+const postIts = document.querySelectorAll('.post-it');
+const corkboard = document.querySelector('.corkboard');
+
+postIts.forEach(postIt => {
+  // Set random initial position without overlap
+  let randomX, randomY;
+  do {
+    randomX = Math.floor(Math.random() * (corkboard.offsetWidth - postIt.offsetWidth));
+    randomY = Math.floor(Math.random() * (corkboard.offsetHeight - postIt.offsetHeight));
+  } while (isOverlap(randomX, randomY));
+
+  postIt.style.left = `${randomX}px`;
+  postIt.style.top = `${randomY}px`;
+
+  // Make post-it draggable
+  postIt.addEventListener('mousedown', (e) => {
+    // Bring the post-it to the front by increasing its z-index
+    postIt.style.zIndex = 999;
+
+    let offsetX = e.clientX - postIt.getBoundingClientRect().left;
+    let offsetY = e.clientY - postIt.getBoundingClientRect().top;
+
+    function movePostIt(event) {
+      postIt.style.left = event.clientX - offsetX + 'px';
+      postIt.style.top = event.clientY - offsetY + 'px';
+    }
+
+    function stopMoving() {
+      // Reset the z-index when dragging stops
+      postIt.style.zIndex = 1;
+
+      document.removeEventListener('mousemove', movePostIt);
+      document.removeEventListener('mouseup', stopMoving);
+    }
+
+    document.addEventListener('mousemove', movePostIt);
+    document.addEventListener('mouseup', stopMoving);
+  });
+});
+
+// Function to check if the new position will overlap with existing post-its
+function isOverlap(x, y) {
+  let overlap = false;
+  postIts.forEach(postIt => {
+    const rect = postIt.getBoundingClientRect();
+    if (
+      x < rect.right &&
+      x + postIt.offsetWidth > rect.left &&
+      y < rect.bottom &&
+      y + postIt.offsetHeight > rect.top
+    ) {
+      overlap = true;
+    }
+  });
+  return overlap;
+}
