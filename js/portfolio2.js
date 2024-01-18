@@ -33,68 +33,47 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
 
-// Function to check if two rectangles overlap
-function isOverlapping(rect1, rect2) {
-    return (
-      rect1.left < rect2.right &&
-      rect1.right > rect2.left &&
-      rect1.top < rect2.bottom &&
-      rect1.bottom > rect2.top
-    );
-  }
-  
-  // Function to get random position within corkboard bounds
-  function getRandomPosition(maxX, maxY, noteWidth, noteHeight) {
-    const x = Math.floor(Math.random() * (maxX - noteWidth));
-    const y = Math.floor(Math.random() * (maxY - noteHeight));
-    return { x, y };
-  }
-  
-  // Make post-it notes draggable and set random non-overlapping positions
-  const corkboard = document.querySelector('.corkboard');
-  const postIts = document.querySelectorAll('.post-it');
-  
-  postIts.forEach(postIt => {
-    // Set random non-overlapping initial position
-    const corkboardRect = corkboard.getBoundingClientRect();
-    const postItRect = postIt.getBoundingClientRect();
-    const maxX = corkboardRect.width - postItRect.width;
-    const maxY = corkboardRect.height - postItRect.height;
-  
-    let position = getRandomPosition(maxX, maxY, postItRect.width, postItRect.height);
-  
-    // Check for collisions and adjust position if needed
-    while (postIts.some(otherNote => isOverlapping(position, otherNote.getBoundingClientRect()))) {
-      position = getRandomPosition(maxX, maxY, postItRect.width, postItRect.height);
+// Make post-it notes draggable and set random positions
+const postIts = document.querySelectorAll('.post-it');
+const corkboard = document.querySelector('.corkboard');
+
+postIts.forEach(postIt => {
+  // Set random initial position within corkboard
+  const randomX = Math.floor(Math.random() * (corkboard.clientWidth - postIt.clientWidth));
+  const randomY = Math.floor(Math.random() * (corkboard.clientHeight - postIt.clientHeight));
+  postIt.style.left = `${randomX}px`;
+  postIt.style.top = `${randomY}px`;
+
+  // Make post-it draggable
+  postIt.addEventListener('mousedown', (e) => {
+    // Bring the post-it to the front by increasing its z-index
+    postIt.style.zIndex = 999;
+
+    let offsetX = e.clientX - postIt.getBoundingClientRect().left;
+    let offsetY = e.clientY - postIt.getBoundingClientRect().top;
+
+    function movePostIt(event) {
+      // Calculate new position within corkboard boundaries
+      let newLeft = event.clientX - offsetX;
+      let newTop = event.clientY - offsetY;
+
+      // Ensure the post-it stays within the corkboard
+      newLeft = Math.min(Math.max(newLeft, 0), corkboard.clientWidth - postIt.clientWidth);
+      newTop = Math.min(Math.max(newTop, 0), corkboard.clientHeight - postIt.clientHeight);
+
+      postIt.style.left = `${newLeft}px`;
+      postIt.style.top = `${newTop}px`;
     }
-  
-    postIt.style.left = `${position.x}px`;
-    postIt.style.top = `${position.y}px`;
-  
-    // Make post-it draggable
-    postIt.addEventListener('mousedown', (e) => {
-      postIt.style.zIndex = 999;
-  
-      let offsetX = e.clientX - postItRect.left;
-      let offsetY = e.clientY - postItRect.top;
-  
-      function movePostIt(event) {
-        const newX = event.clientX - offsetX;
-        const newY = event.clientY - offsetY;
-  
-        // Ensure post-it stays within corkboard bounds
-        postIt.style.left = `${Math.min(maxX, Math.max(0, newX))}px`;
-        postIt.style.top = `${Math.min(maxY, Math.max(0, newY))}px`;
-      }
-  
-      function stopMoving() {
-        postIt.style.zIndex = 1;
-  
-        document.removeEventListener('mousemove', movePostIt);
-        document.removeEventListener('mouseup', stopMoving);
-      }
-  
-      document.addEventListener('mousemove', movePostIt);
-      document.addEventListener('mouseup', stopMoving);
-    });
+
+    function stopMoving() {
+      // Reset the z-index when dragging stops
+      postIt.style.zIndex = 1;
+
+      document.removeEventListener('mousemove', movePostIt);
+      document.removeEventListener('mouseup', stopMoving);
+    }
+
+    document.addEventListener('mousemove', movePostIt);
+    document.addEventListener('mouseup', stopMoving);
   });
+});
