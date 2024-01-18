@@ -57,8 +57,12 @@ postIts.forEach(postIt => {
     let offsetY = e.clientY - postIt.getBoundingClientRect().top;
 
     function movePostIt(event) {
-      postIt.style.left = event.clientX - offsetX + 'px';
-      postIt.style.top = event.clientY - offsetY + 'px';
+      // Calculate the new position within corkboard boundaries
+      let newX = Math.min(Math.max(event.clientX - offsetX, 0), corkboard.offsetWidth - postIt.offsetWidth);
+      let newY = Math.min(Math.max(event.clientY - offsetY, 0), corkboard.offsetHeight - postIt.offsetHeight);
+
+      postIt.style.left = `${newX}px`;
+      postIt.style.top = `${newY}px`;
     }
 
     function stopMoving() {
