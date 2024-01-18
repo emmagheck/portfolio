@@ -38,9 +38,13 @@ const postIts = document.querySelectorAll('.post-it');
 const corkboard = document.querySelector('.corkboard');
 
 postIts.forEach(postIt => {
-  // Set random initial position within corkboard
-  const randomX = Math.floor(Math.random() * (corkboard.clientWidth - postIt.clientWidth));
-  const randomY = Math.floor(Math.random() * (corkboard.clientHeight - postIt.clientHeight));
+  // Set random initial position without overlap
+  let randomX, randomY;
+  do {
+    randomX = Math.floor(Math.random() * (corkboard.offsetWidth - postIt.offsetWidth));
+    randomY = Math.floor(Math.random() * (corkboard.offsetHeight - postIt.offsetHeight));
+  } while (isOverlap(randomX, randomY));
+
   postIt.style.left = `${randomX}px`;
   postIt.style.top = `${randomY}px`;
 
@@ -53,16 +57,8 @@ postIts.forEach(postIt => {
     let offsetY = e.clientY - postIt.getBoundingClientRect().top;
 
     function movePostIt(event) {
-      // Calculate new position within corkboard boundaries
-      let newLeft = event.clientX - offsetX;
-      let newTop = event.clientY - offsetY;
-
-      // Ensure the post-it stays within the corkboard
-      newLeft = Math.min(Math.max(newLeft, 0), corkboard.clientWidth - postIt.clientWidth);
-      newTop = Math.min(Math.max(newTop, 0), corkboard.clientHeight - postIt.clientHeight);
-
-      postIt.style.left = `${newLeft}px`;
-      postIt.style.top = `${newTop}px`;
+      postIt.style.left = event.clientX - offsetX + 'px';
+      postIt.style.top = event.clientY - offsetY + 'px';
     }
 
     function stopMoving() {
@@ -77,3 +73,20 @@ postIts.forEach(postIt => {
     document.addEventListener('mouseup', stopMoving);
   });
 });
+
+// Function to check if the new position will overlap with existing post-its
+function isOverlap(x, y) {
+  let overlap = false;
+  postIts.forEach(postIt => {
+    const rect = postIt.getBoundingClientRect();
+    if (
+      x < rect.right &&
+      x + postIt.offsetWidth > rect.left &&
+      y < rect.bottom &&
+      y + postIt.offsetHeight > rect.top
+    ) {
+      overlap = true;
+    }
+  });
+  return overlap;
+}
