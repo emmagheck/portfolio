@@ -118,22 +118,61 @@ main {
 
 #github, .github-link, .github-icon {
     grid-area: 3 / 1 / span 1 / span 1;
-    width: 50px;
-    height: 50px;
+    margin: 0 10px; /* Adjust spacing between icons */
+    transition: transform 0.3s ease-in-out;
 }
 
 #linkedin, .linkedin-link, .linkedin-icon {
     grid-area: 3 / 2 / span 1 / span 1;
+    margin: 0 10px; /* Adjust spacing between icons */
+    transition: transform 0.3s ease-in-out;
 }
 
 #instagram, .instagram-link, .instagram-icon {
     grid-area: 3 / 3 / span 1 / span 1;
+    margin: 0 10px; /* Adjust spacing between icons */
+    transition: transform 0.3s ease-in-out;
 }
 
 #typed-text {
     grid-area: 2 / 5 / span 4 / span 7;
 }
 
+#github, #linkedin, #instagram, #prof-pic {
+    display: flex;
+}
+
+
+.github-icon:hover {
+    animation: jiggle 0.5s ease infinite;
+}
+
+.linkedin-icon:hover {
+    animation: jiggle 0.5s ease infinite;
+}
+
+.instagram-icon:hover {
+    animation: jiggle 0.5s ease infinite;
+}
+
+#prof-pic:hover {
+    animation: jiggle 0.5s ease infinite;
+}
+
+@keyframes jiggle {
+    0%, 100% {
+        transform: rotate(0deg);
+    }
+    25% {
+        transform: rotate(5deg);
+    }
+    50% {
+        transform: rotate(-5deg);
+    }
+    75% {
+        transform: rotate(5deg);
+    }
+}
 
 @media screen and (max-width: 800px) {
     #welcome {
