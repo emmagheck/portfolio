@@ -118,19 +118,16 @@ main {
 
 #github, .github-link, .github-icon {
     grid-area: 3 / 1 / span 1 / span 1;
-    margin: 0 10px; /* Adjust spacing between icons */
     transition: transform 0.3s ease-in-out;
 }
 
 #linkedin, .linkedin-link, .linkedin-icon {
     grid-area: 3 / 2 / span 1 / span 1;
-    margin: 0 10px; /* Adjust spacing between icons */
     transition: transform 0.3s ease-in-out;
 }
 
 #instagram, .instagram-link, .instagram-icon {
     grid-area: 3 / 3 / span 1 / span 1;
-    margin: 0 10px; /* Adjust spacing between icons */
     transition: transform 0.3s ease-in-out;
 }
 
@@ -190,7 +187,7 @@ main {
     }
 
     #github, .github-link, .github-icon {
-        grid-area: 2 / 2 / span 1 / span 1
+        grid-area: 2 / 2 / span 1 / span 1;
     }
 
     #linkedin, .linkedin-link, .linkedin-icon {
@@ -200,7 +197,21 @@ main {
     #instagram, .instagram-link, .instagram-icon {
         grid-area: 2 / 5 / span 1 / span 1;
     }
+    img.linkedin-icon {
+        width: 50px;
+        height: 50px;
+    }
 
+    img.github-icon {
+        width: 50px;
+        height: 50px;
+    }
+
+    img.instagram-icon {
+        width: 50px;
+        height: 50px;
+    }
+    
     #typed-text {
         grid-area: 3 / 1 / span 2 / span 6;
     }
